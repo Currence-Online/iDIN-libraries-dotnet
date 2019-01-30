@@ -1,0 +1,38 @@
+Release Notes BankId.Merchant.Library
+
+v 1.2
+#101804: [.NET] Add Signing service
+
+v 1.0.6.4
+
+Product Backlog Item
+#104530:[.NET] Remove loa2
+#104531:[.NET] Consumer Initials: accept ligatures and digraphs
+
+v 1.0.6.3
+
+Bugfixes
+#96331:[.NET] Adjust attributes (ConsumerPrefLastName & ConsumerPrefLastNamePrefix)
+
+v 1.0.6.2
+
+Bugfixes
+#93808:[.NET] Adjust Regexes for all attributes
+
+
+v 1.0.6.1
+
+Bugfixes
+#89851:[.NET] Cleanup logs & set config file to empty values
+
+
+v 1.0.6.0
+
+Features
+#84033 [.NET] Handle responses signed with an alternate certificate from acquirers
+
+
+v 1.0.5.2
+
+Bugfixes
+#86002 [.NET] Problem with #-sign
