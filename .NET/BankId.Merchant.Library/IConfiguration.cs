@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography.X509Certificates;
+using BankId.Merchant.Library.Security;
 
 namespace BankId.Merchant.Library
 {
@@ -124,5 +125,11 @@ namespace BankId.Merchant.Library
         /// </summary>
         /// <returns></returns>
         IMessenger GetMessenger();
+
+        /// <summary>
+        /// Gets the default XmlSecurity utility instance
+        /// </summary>
+        /// <returns></returns>
+        IXmlSecurity GetXmlSecurity();
     }
 }
