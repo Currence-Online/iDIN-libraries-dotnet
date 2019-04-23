@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Security.Cryptography.X509Certificates;
 using BankId.Merchant.Library.AdvancedConfiguration;
+using BankId.Merchant.Library.Security;
 
 namespace BankId.Merchant.Library
 {
@@ -422,6 +423,16 @@ namespace BankId.Merchant.Library
         {
             return new Messenger(this);
         }
+
+        /// <summary>
+        /// Gets the default XmlSecurity utility instance
+        /// </summary>
+        /// <returns></returns>
+        public virtual IXmlSecurity GetXmlSecurity()
+        {
+            return new XmlSecurity(this);
+        }
+
     }
 
 

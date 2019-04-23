@@ -43,12 +43,11 @@ namespace BankId.Merchant.Library
             _logger = _configuration.GetLogger();
             _messenger = _configuration.GetMessenger();
 
-            _xmlSecurity = new XmlSecurity(_configuration);
+            _xmlSecurity = _configuration.GetXmlSecurity();
 
-            
+
             _logger.Log("communicator initialized");
         }
-
 
         /// <summary>
         /// Creates a new Communicator instance by specifing a custom configuration instance
@@ -64,8 +63,7 @@ namespace BankId.Merchant.Library
             _logger = _configuration.GetLogger();
             _messenger = _configuration.GetMessenger();
 
-            _xmlSecurity = new XmlSecurity(_configuration);
-
+            _xmlSecurity = _configuration.GetXmlSecurity();
 
             _logger.Log("communicator initialized with custom configuration");
         }
