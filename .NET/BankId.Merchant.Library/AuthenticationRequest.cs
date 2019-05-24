@@ -27,9 +27,12 @@ namespace BankId.Merchant.Library
 
             if (!String.IsNullOrEmpty(merchantDocumentId))
             {
-                if ((requestedServiceId & ServiceIds.Sign) != 0 && requestedServiceId != ServiceIds.Sign)
+                if ((requestedServiceId & ServiceIds.Sign) != 0)
                 {
-                    throw new ArgumentException("Sign cannot be combined with other services.");
+                    if ((requestedServiceId & ServiceIds.ConsumerBin) == 0)
+                    {
+                        throw new ArgumentException("ConsumerID BIN attribute should be present.");
+                    }
                 }
                 else if (requestedServiceId != ServiceIds.Sign)
                 {
@@ -44,7 +47,7 @@ namespace BankId.Merchant.Library
                 }
             }
 
-            EntranceCode = entranceCode;
+            EntranceCode = entranceCode;    
             MerchantReference = merchantReference ?? GenerateMerchantReference();
             Language = language;
             RequestedServiceId = requestedServiceId;
