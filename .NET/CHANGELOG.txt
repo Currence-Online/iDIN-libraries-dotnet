@@ -3,6 +3,8 @@ Release Notes BankId.Merchant.Library
 v 1.2.1
 Bugfixes
 #118466: [.NET] COT-337: The attribute for electronic signing cannot be combined with other services in .Net iDIN Libraries
+COT-305: Adjust .NET iDIN software library for the Merchants to be able to work with unit tests
+COT-308: Investigate possible vulnerability of iDIN Library in GitHub
 
 v 1.2
 #101804: [.NET] Add Signing service
