@@ -51,7 +51,9 @@
     <Compile Include="AdvancedConfiguration\CertificateStoreLoader.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Constants.cs" />
+    <Compile Include="IMessenger.cs" />
     <Compile Include="Issuer.cs" />
+    <Compile Include="MessageBuilders\IDxMessageBuilder.cs" />
     <Compile Include="SamlAttributeValidator.cs" />
     <Compile Include="SamlStatus.cs" />
     <Compile Include="Security\BankIdSignature.cs" />

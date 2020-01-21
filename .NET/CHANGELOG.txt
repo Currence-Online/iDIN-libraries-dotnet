@@ -1,5 +1,8 @@
-Release Notes BankId.Merchant.Library
-	
+	Release Notes BankId.Merchant.Library 
+
+v 1.2.2
+#116754: COT-312: Provide additional async methods in iDIN .Net Libraries
+
 v 1.2.1
 Bugfixes
 #118466: [.NET] COT-337: The attribute for electronic signing cannot be combined with other services in .Net iDIN Libraries
