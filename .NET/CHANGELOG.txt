@@ -1,5 +1,8 @@
 	Release Notes BankId.Merchant.Library 
 
+v 1.2.3
+#128248: COT-526: Add the library version in the logs
+
 v 1.2.2
 #116754: COT-312: Provide additional async methods in iDIN .Net Libraries
 
