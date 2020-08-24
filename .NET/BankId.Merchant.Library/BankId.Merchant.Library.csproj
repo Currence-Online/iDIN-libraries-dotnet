@@ -124,7 +124,6 @@
       <Link>Xml\Schemas\xenc-schema.xsd</Link>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="app.config" />
     <EmbeddedResource Include="..\..\Common\iDx Schemas\idx.merchant-acquirer.1.0.xsd">
       <SubType>Designer</SubType>
       <Link>Xml\idx.merchant-acquirer.1.0.xsd</Link>
@@ -135,7 +134,9 @@
     </EmbeddedResource>
     <Compile Include="MessageBuilders\BankIdMessageBuilder.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

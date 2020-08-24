@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BankId.Merchant.Library", "BankId.Merchant.Library\BankId.Merchant.Library.csproj", "{5D4E6E3F-1969-4CBC-9F20-3C9F80A5B74C}"
 EndProject
@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1CD8265F-80FC-4112-B506-CDD6C03D038C}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.txt = CHANGELOG.txt
+		readme.md = readme.md
 	EndProjectSection
 EndProject
 Global
@@ -31,6 +32,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BE802534-CE95-4400-A680-26C0591880BB}
+		SolutionGuid = {994110BD-FAB9-40C5-B6BA-8A4EB3F0E434}
 	EndGlobalSection
 EndGlobal
