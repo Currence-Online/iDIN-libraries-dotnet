@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Security.Cryptography;
 using System.Security.Cryptography.Xml;
 using System.Xml;
@@ -8,7 +11,7 @@ namespace BankId.Merchant.Library.Security
 {
     internal class XmlEncryption
     {
-        internal static void DecryptXml(RSACryptoServiceProvider asymmetricAlgorithm, XmlDocument xmlDoc, string[] xmlElementsXPaths)
+        internal static ICollection<SamlAttributesEncryptionKey> DecryptXml(RSACryptoServiceProvider asymmetricAlgorithm, XmlDocument xmlDoc, string[] xmlElementsXPaths)
         {
             if (asymmetricAlgorithm == null) throw new ArgumentNullException("asymmetricAlgorithm");
             if (xmlDoc == null) throw new ArgumentNullException("xmlDoc");
@@ -17,6 +20,8 @@ namespace BankId.Merchant.Library.Security
             // create the symmetric algorithm which was used for encryption
             var symmetricAlgorithm = new AesManaged();
             symmetricAlgorithm.Padding = PaddingMode.ISO10126;
+
+            ICollection<SamlAttributesEncryptionKey> attributesEncryptionKeys = new Collection<SamlAttributesEncryptionKey>();
 
             foreach (var xPath in xmlElementsXPaths)
             {
@@ -47,10 +52,67 @@ namespace BankId.Merchant.Library.Security
                     var output = new EncryptedXml { Mode = CipherMode.CBC, Padding = PaddingMode.ISO10126 };
                     var data = output.DecryptData(encryptedData, symmetricAlgorithm);
 
+                    var previousSibling = (XmlElement) encryptedElement.PreviousSibling;
+                    var nextSibling = (XmlElement)encryptedElement.NextSibling;
+                    var parentElement = (XmlElement)encryptedElement.ParentNode;
+
                     // replace the encrypted element with its decrypted form
                     output.ReplaceData((XmlElement)encryptedElement, data);
+
+                    var currentNode = previousSibling?.NextSibling
+                                        ?? nextSibling?.PreviousSibling 
+                                        ?? parentElement?.FirstChild;
+
+                    if (currentNode == null)
+                    {
+                        continue;
+                    }
+
+                    var attributesEncryptionKey = GetAttributesEncryptionKey(currentNode, symetricKey);
+
+                    if (attributesEncryptionKey != null)
+                    {
+                        attributesEncryptionKeys.Add(attributesEncryptionKey);
+                    }
+
+                    
+
                 }
             }
+            return attributesEncryptionKeys;
+        }
+
+        private static  SamlAttributesEncryptionKey GetAttributesEncryptionKey(XmlNode xmlNode, byte[] symetricKey)
+        {
+            var attributeCollection = xmlNode.Attributes;
+
+            if (attributeCollection != null)
+            {
+                // Consumer.BIN attribute does not have a Name attribute
+                if (attributeCollection.Count > 0)
+                {
+                    foreach (XmlAttribute att in attributeCollection)
+                    {
+                        if (att.Name == "Name")
+                        {
+                            return new SamlAttributesEncryptionKey()
+                            {
+                                AttributeName = att.Value,
+                                AesKey = symetricKey
+                            };
+                        }
+                    }
+                }
+                else
+                {
+                    return new SamlAttributesEncryptionKey()
+                    {
+                        AesKey = symetricKey
+                    };
+                }
+            }
+
+            return null;
         }
     }
 }

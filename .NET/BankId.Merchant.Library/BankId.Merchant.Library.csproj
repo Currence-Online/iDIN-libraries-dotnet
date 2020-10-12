@@ -54,6 +54,7 @@
     <Compile Include="IMessenger.cs" />
     <Compile Include="Issuer.cs" />
     <Compile Include="MessageBuilders\IDxMessageBuilder.cs" />
+    <Compile Include="SamlAttributesEncryptionKey.cs" />
     <Compile Include="SamlAttributeValidator.cs" />
     <Compile Include="SamlStatus.cs" />
     <Compile Include="Security\BankIdSignature.cs" />
