@@ -14,7 +14,7 @@ namespace BankId.Merchant.Library
     /// </summary>
     public class SamlResponse
     {
-        private SamlResponse(ResponseType responseType)
+        private SamlResponse(ResponseType responseType, ICollection<SamlAttributesEncryptionKey> encryptedAttributesEncryptionKeys = null)
         {
             if (responseType == null) throw new ArgumentNullException("responseType");
 
@@ -35,6 +35,7 @@ namespace BankId.Merchant.Library
             if (responseType.Items == null)
             {
                 AttributeStatements = new ReadOnlyCollection<SamlAttribute>(new Collection<SamlAttribute>());
+                AttributesEncryptionKeys = new ReadOnlyCollection<SamlAttributesEncryptionKey>((Collection<SamlAttributesEncryptionKey>)encryptedAttributesEncryptionKeys);
                 return;
             }
 
@@ -47,13 +48,23 @@ namespace BankId.Merchant.Library
                 if (itemsField != null && itemsField.Length > 0)
                 {
                     var value = ((NameIDType)itemsField[0]).Value;
+                    var encryptedSubjectAttribute =
+                        encryptedAttributesEncryptionKeys.FirstOrDefault(attr => attr.AesKey != null && string.IsNullOrEmpty(attr.AttributeName));
                     if (value.StartsWith("TRANS"))
                     {
                         attributeStatements.Add(new SamlAttribute(SamlAttribute.ConsumerTransientID, value));
+                        if (encryptedSubjectAttribute != null)
+                        {
+                            encryptedSubjectAttribute.AttributeName = SamlAttribute.ConsumerTransientID;
+                        }
                     }
                     else
                     {
                         attributeStatements.Add(new SamlAttribute(SamlAttribute.ConsumerBin, value));
+                        if (encryptedSubjectAttribute != null)
+                        {
+                            encryptedSubjectAttribute.AttributeName = SamlAttribute.ConsumerBin;
+                        }
                     }
                 }
             }
@@ -64,6 +75,7 @@ namespace BankId.Merchant.Library
             if (!assertionTypes.Any())
             {
                 AttributeStatements = new ReadOnlyCollection<SamlAttribute>(attributeStatements);
+                AttributesEncryptionKeys = new ReadOnlyCollection<SamlAttributesEncryptionKey>((Collection<SamlAttributesEncryptionKey>)encryptedAttributesEncryptionKeys);
                 return;
             }
 
@@ -98,6 +110,7 @@ namespace BankId.Merchant.Library
             }          
 
             AttributeStatements = new ReadOnlyCollection<SamlAttribute>(attributeStatements);
+            AttributesEncryptionKeys = new ReadOnlyCollection<SamlAttributesEncryptionKey>((Collection<SamlAttributesEncryptionKey>)encryptedAttributesEncryptionKeys);
         }
 
         /// <summary>
@@ -145,14 +158,20 @@ namespace BankId.Merchant.Library
             return attribute?.Value;
         }
 
+        /// <summary>
+        /// The symmetric keys for each of the SAML Attributes
+        /// </summary>
+        public IReadOnlyCollection<SamlAttributesEncryptionKey> AttributesEncryptionKeys { get; private set; }
+
         internal static SamlResponse Parse(string xml, IConfiguration configuration)
         {
             var samlXml = new XmlDocument();
             samlXml.LoadXml(xml);
+            ICollection<SamlAttributesEncryptionKey> encryptedAttributesEncryptionKeys = new Collection<SamlAttributesEncryptionKey>();
 
             try
             {
-                XmlEncryption.DecryptXml(
+                encryptedAttributesEncryptionKeys = XmlEncryption.DecryptXml(
                     configuration.SamlCertificate.PrivateKey as RSACryptoServiceProvider,
                     samlXml,
                     new[] { "//*[local-name() = 'EncryptedID']", "//*[local-name() = 'EncryptedAttribute']" });
@@ -164,7 +183,7 @@ namespace BankId.Merchant.Library
 
             var doc = ResponseType.Deserialize(samlXml.InnerXml);
 
-            return new SamlResponse(doc);
+            return new SamlResponse(doc, encryptedAttributesEncryptionKeys);
         }
     }
 }

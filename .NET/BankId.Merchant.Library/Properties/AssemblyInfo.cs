@@ -11,10 +11,10 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: InternalsVisibleTo("BankId.Merchant.Console")]
-[assembly: InternalsVisibleTo("BankId.Merchant.Library.Test")]
-
 [assembly: ComVisible(false)]
 
-[assembly: AssemblyVersion("1.2.3.0")]
-[assembly: AssemblyFileVersion("1.2.3.0")]
+[assembly: AssemblyVersion("1.2.4.0")]
+[assembly: AssemblyFileVersion("1.2.4.0")]
+[assembly: InternalsVisibleTo("BankId.Merchant.Library.Tests")]
+//necessary in order to allow for unit tests
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]

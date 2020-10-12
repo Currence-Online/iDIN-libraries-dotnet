@@ -124,6 +124,8 @@
     <Content Include="Views\BankId\AuthenticationResponse.cshtml" />
     <Content Include="Views\BankId\GetResponse.cshtml" />
     <Content Include="Views\BankId\StatusResponse.cshtml" />
+    <None Include="Web.Release.config" />
+    <None Include="Web.QA.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
